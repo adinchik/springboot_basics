@@ -1,18 +1,17 @@
 package ru.geekbrains;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
-@Controller
-@RequestMapping("/products")
-@Transactional
+
+@RequestMapping("/api/**")
+@RestController
 public class ProductsController {
     private ProductsService productsService;
 
@@ -21,38 +20,30 @@ public class ProductsController {
         this.productsService = productsService;
     }
 
-    @RequestMapping(path = "/{sid}", method = RequestMethod.GET)
-    public String showProduct(Model model, @PathVariable("sid") int id) {
-        model.addAttribute("product", productsService.getProductById(id));
-        return "show-product";
+    @GetMapping("/products/{id}")
+    public Product getProduct(@PathVariable("id") int id) {
+        return productsService.getProductById(id);
     }
 
-    @RequestMapping(path = "/list", method = RequestMethod.GET)
-    public String showAllProducts(Model model) {
-        List<Product> products = productsService.getAllProducts();
-        model.addAttribute("products", products);
-        return "products-list";
+    @GetMapping("/products")
+    public List<Product> showAllProducts() {
+        return productsService.getAllProducts();
     }
 
-    @RequestMapping(path="/add", method=RequestMethod.GET)
-    public String showAddForm(Model model) {
-        Product product = new Product();
-        model.addAttribute("product", product);
-        return "add-product";
+    @PostMapping("/products")
+    public Product addProduct(@RequestBody Product product) {
+        return productsService.saveOrUpdateProduct(product);
     }
 
-    @RequestMapping(path="/add", method=RequestMethod.POST)
-    public String showAddForm(Product product) {
-        System.out.println(product.getTitle());
-        productsService.addProduct(product);
-        return "redirect:/products/list";
+    @PutMapping(path = "/products", consumes = {MediaType.APPLICATION_JSON_VALUE})
+    public Product updateProduct(@RequestBody Product product) {
+        return productsService.saveOrUpdateProduct(product);
     }
 
-    @RequestMapping(path = "/remove/{sid}", method = RequestMethod.GET)
-    public String deleteProduct(Model model, @PathVariable("sid") int id) {
+    @DeleteMapping("/products/{id}")
+    public int deleteProduct(@PathVariable("id") int id) {
         productsService.deleteById(id);
-        model.addAttribute("products", productsService.getAllProducts());
-        return "redirect:/products/list";
+        return HttpStatus.OK.value();
     }
 
 }
