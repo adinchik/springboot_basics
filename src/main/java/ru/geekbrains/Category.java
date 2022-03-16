@@ -1,5 +1,7 @@
 package ru.geekbrains;
 
+import ru.geekbrains.entities.Product;
+
 import javax.persistence.*;
 import java.util.List;
 
