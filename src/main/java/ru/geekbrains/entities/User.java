@@ -23,6 +23,12 @@ public class User {
     @Column(name = "first_name")
     private String firstName;
 
+    @Column(name = "last_name")
+    private String lastName;
+
+    @Column(name = "email")
+    private String email;
+
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "users_roles",
@@ -30,26 +36,26 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Collection<Role> roles;
 
-//    public User() {
-//    }
+    public User() {
+    }
 
-//    public User(String userName, String password, String firstName, String lastName, String email) {
-//        this.userName = userName;
-//        this.password = password;
-//        this.firstName = firstName;
-//        this.lastName = lastName;
-//        this.email = email;
-//    }
-//
-//    public User(String userName, String password, String firstName, String lastName, String email,
-//                Collection<Role> roles) {
-//        this.userName = userName;
-//        this.password = password;
-//        this.firstName = firstName;
-//        this.lastName = lastName;
-//        this.email = email;
-//        this.roles = roles;
-//    }
+    public User(String userName, String password, String firstName, String lastName, String email) {
+        this.userName = userName;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+    }
+
+    public User(String userName, String password, String firstName, String lastName, String email,
+                Collection<Role> roles) {
+        this.userName = userName;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.roles = roles;
+    }
 
     @Override
     public String toString() {

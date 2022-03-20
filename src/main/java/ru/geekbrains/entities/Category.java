@@ -1,4 +1,4 @@
-package ru.geekbrains;
+package ru.geekbrains.entities;
 
 import ru.geekbrains.entities.Product;
 

@@ -1,7 +1,5 @@
 package ru.geekbrains.entities;
 
-import ru.geekbrains.Category;
-
 import javax.persistence.*;
 
 @Entity

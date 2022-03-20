@@ -1,6 +1,8 @@
 package ru.geekbrains.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import ru.geekbrains.entities.Product;
 import ru.geekbrains.repositories.ProductsRepository;
@@ -20,8 +22,8 @@ public class ProductsService {
         return productsRepository.findOneById(id);
     }
 
-    public List<Product> getAllProducts() {
-        return (List<Product>)productsRepository.findAll();
+    public Page<Product> getAllProducts(int page) {
+        return (Page<Product>) productsRepository.findAll(new PageRequest(page, 4));
     }
 
     public void addProduct(Product product) {
