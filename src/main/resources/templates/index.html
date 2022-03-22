@@ -28,16 +28,15 @@
         <div sec:authentication="principal.authorities"></div>
     </div>
 
-    <!--<div sec:authorize access="hasAnyRole('ADMIN', 'USER')">-->
-    <div sec:authorize="hasRole('ADMIN')">
-        This content will only be visible to users who have the "supervisor" authority in their list of <tt>GrantedAuthority</tt>s.
+    <div sec:authorize="hasAuthority('ADMIN')">
+        Hello, admin!
     </div>
 
     <h2>Index:</h2>
     <br>
     <a href="/products/list">Show students list</a>
     <br>
-<!--    <a href="/students/add">Add new student</a>-->
+<!--    <a href="/students/add">Add new product</a>-->
 <!--    <button id="testBtn">Test</button>-->
     <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
     <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>

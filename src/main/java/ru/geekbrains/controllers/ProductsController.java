@@ -32,6 +32,7 @@ public class ProductsController {
 
     @RequestMapping(path = "/list", method = RequestMethod.GET)
     public String showAllProducts(Model model, @RequestParam(defaultValue = "0") int page) {
+        //int page = Integer.getInteger(pageS);
         Page<Product> products = productsService.getAllProducts(page);
         model.addAttribute("products", products);
         System.out.println(page);
