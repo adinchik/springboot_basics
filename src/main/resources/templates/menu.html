@@ -26,18 +26,18 @@
                 <li class="nav-item" th:classappend="${activeTab == 'Home' ? 'active' : ''}">
                     <a class="nav-link" th:href="@{/}">Home<span class="sr-only">(current)</span></a>
                 </li>
-                <li sec:authorize="hasRole('ADMIN')" class="nav-item">-->
-                    <a class="nav-link" th:href="@{/admin}">Admin Dashboard</a>-->
+                <li sec:authorize="hasAuthority('ADMIN')" class="nav-item">
+                    <a class="nav-link" th:href="@{/admin}">Admin Dashboard</a>
                 </li>
                 <li class="nav-item" th:classappend="${activeTab == 'ProductsList' ? 'active' : ''}">
                     <a class="nav-link" th:href="@{/products/list}">Products List</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link disabled" href="#">Disabled</a>
-                </li>
+<!--                <li class="nav-item">-->
+<!--                    <a class="nav-link disabled" href="#">Disabled</a>-->
+<!--                </li>-->
 
                 <div sec:authorize="isAuthenticated()">
-                    <li class="nav-item">-->
+                    <li class="nav-item">
                         <form th:action="@{/logout}" method="POST">
                             <input type="submit" class="btn btn-danger" value="Logout"/>
                         </form>
