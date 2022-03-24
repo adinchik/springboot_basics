@@ -15,7 +15,7 @@ import ru.geekbrains.services.UserService;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true,securedEnabled = true)
+@EnableGlobalMethodSecurity(securedEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
@@ -37,25 +37,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         auth.authenticationProvider(authenticationProvider());
     }
 
-    @Bean
-    public BCryptPasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
 
-    @Bean
-    public DaoAuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider auth = new DaoAuthenticationProvider();
-        auth.setUserDetailsService(userService);
-        auth.setPasswordEncoder(passwordEncoder());
-        return auth;
-    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
-            .csrf().disable()
-                .authorizeRequests()
-                .antMatchers("/admin/**").hasRole("ADMIN")
+        http.authorizeRequests()
+                .antMatchers("/admin/**").hasAuthority("ADMIN")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
@@ -69,59 +56,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     }
 
-
-
-    /*@Autowired
-    DataSource dataSource;
-    private CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
-
-
     @Bean
-    public PasswordEncoder passwordEncoder() {
+    public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    @Autowired
-    public void setCustomAuthenticationSuccessHandler(CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler) {
-        this.customAuthenticationSuccessHandler = customAuthenticationSuccessHandler;
-    }
-
-
-    // Enable jdbc authentication
-    @Autowired
-    public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception {
-        auth.jdbcAuthentication().dataSource(dataSource).passwordEncoder(passwordEncoder());
-    }
-
-
-
     @Bean
-    public JdbcUserDetailsManager jdbcUserDetailsManager() throws Exception {
-        JdbcUserDetailsManager jdbcUserDetailsManager = new JdbcUserDetailsManager();
-        jdbcUserDetailsManager.setDataSource(dataSource);
-        return jdbcUserDetailsManager;
+    public DaoAuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider auth = new DaoAuthenticationProvider();
+        auth.setUserDetailsService(userService);
+        auth.setPasswordEncoder(passwordEncoder());
+        return auth;
     }
-
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/resources/**");
-    }
-
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-
-        http.authorizeRequests()
-                .antMatchers("/").hasRole("EMPLOYEE")
-                .antMatchers("/").hasRole("ADMIN")
-                .antMatchers("/admin/**").hasRole("ADMIN")
-                .and()
-                .formLogin()
-                .loginPage("/login")
-                .loginProcessingUrl("/authenticateTheUser")
-                .successHandler(customAuthenticationSuccessHandler)
-                .permitAll().and().logout().permitAll();
-
-        http.csrf().disable();
-    }*/
 
 }
