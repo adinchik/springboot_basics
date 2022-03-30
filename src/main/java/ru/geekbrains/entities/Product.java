@@ -1,6 +1,7 @@
 package ru.geekbrains.entities;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "products")
@@ -37,6 +38,7 @@ public class Product {
     }
 
     public int getId() {return id;}
+
 
     @Override
     public String toString() {

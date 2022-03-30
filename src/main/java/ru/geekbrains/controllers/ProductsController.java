@@ -2,12 +2,13 @@ package ru.geekbrains.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ru.geekbrains.entities.Product;
 import ru.geekbrains.services.ProductsService;
+import ru.geekbrains.services.ShoppingCartService;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -18,10 +19,16 @@ import java.util.List;
 @Transactional
 public class ProductsController {
     private ProductsService productsService;
+    private ShoppingCartService shoppingCartService;
 
     @Autowired
     public void setProductsService(ProductsService productsService) {
         this.productsService = productsService;
+    }
+
+    @Autowired
+    public void setShoppingCartService(ShoppingCartService shoppingCartService) {
+        this.shoppingCartService = shoppingCartService;
     }
 
     @RequestMapping(path = "/{sid}", method = RequestMethod.GET)
@@ -58,6 +65,15 @@ public class ProductsController {
     @RequestMapping(path = "/remove/{sid}", method = RequestMethod.GET)
     public String deleteProduct(Model model, @PathVariable("sid") int id, @RequestParam(defaultValue = "0") int page) {
         productsService.deleteById(id);
+        model.addAttribute("products", productsService.getAllProducts(page));
+        return "redirect:/products/list";
+    }
+
+    @RequestMapping(path="/addToShoppingCart/{id}", method = RequestMethod.GET)
+    public String addProductToShoppingCart(Model model, @PathVariable("id") int id, @RequestParam(defaultValue = "0") int page, RedirectAttributes redirAttrs) {
+        Product product = productsService.getProductById(id);
+        shoppingCartService.addProductToShoppingCart(product);
+        redirAttrs.addFlashAttribute("success", "Product " + product.getTitle() + " was added to Shopping cart successfully");
         model.addAttribute("products", productsService.getAllProducts(page));
         return "redirect:/products/list";
     }

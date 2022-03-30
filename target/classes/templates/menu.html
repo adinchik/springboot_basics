@@ -32,6 +32,9 @@
                 <li class="nav-item" th:classappend="${activeTab == 'ProductsList' ? 'active' : ''}">
                     <a class="nav-link" th:href="@{/products/list}">Products List</a>
                 </li>
+                <li class="nav-item" th:classappend="${activeTab == 'ShoppingCart' ? 'active' : ''}">
+                    <a class="nav-link" th:href="@{/shoppingCart/list}">Shopping Cart</a>
+                </li>
 <!--                <li class="nav-item">-->
 <!--                    <a class="nav-link disabled" href="#">Disabled</a>-->
 <!--                </li>-->
