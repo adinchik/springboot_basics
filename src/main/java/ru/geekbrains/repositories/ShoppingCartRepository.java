@@ -9,4 +9,5 @@ import ru.geekbrains.entities.ShoppingCart;
 @Repository
 public interface ShoppingCartRepository extends PagingAndSortingRepository<ShoppingCart, Integer> {
     ShoppingCart findOneById(int id);
+    ShoppingCart getShoppingCartByProduct_id(int productId);
 }

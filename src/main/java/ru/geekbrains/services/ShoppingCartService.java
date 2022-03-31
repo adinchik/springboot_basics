@@ -34,15 +34,23 @@ public class ShoppingCartService {
     }
 
     public void addProductToShoppingCart(Product product) {
-        List<ShoppingCart> shoppingCartItems = (List<ShoppingCart>) shoppingCartRepository.findAll();
-        for (ShoppingCart item: shoppingCartItems) {
-            if (item.getProduct_id().getId() == product.getId()) {
-                item.setCount(item.getCount() + 1);
-                shoppingCartRepository.save(item);
-                return;
-            }
+        ShoppingCart item = shoppingCartRepository.getShoppingCartByProduct_id(product.getId());
+        if (item != null) {
+            item.setCount(item.getCount() + 1);
+            shoppingCartRepository.save(item);
+        } else {
+            shoppingCartRepository.save(new ShoppingCart(product));
         }
-        shoppingCartRepository.save(new ShoppingCart(product));
+//
+//        List<ShoppingCart> shoppingCartItems = (List<ShoppingCart>) shoppingCartRepository.findAll();
+//        for (ShoppingCart item: shoppingCartItems) {
+//            if (item.getProduct_id().getId() == product.getId()) {
+//                item.setCount(item.getCount() + 1);
+//                shoppingCartRepository.save(item);
+//                return;
+//            }
+//        }
+//        shoppingCartRepository.save(new ShoppingCart(product));
 
     }
 
