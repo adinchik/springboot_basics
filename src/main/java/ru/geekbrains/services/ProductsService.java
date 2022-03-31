@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import ru.geekbrains.entities.Product;
 import ru.geekbrains.repositories.ProductsRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -33,4 +34,6 @@ public class ProductsService {
     public void deleteById(int id) {
         productsRepository.deleteById(id);
     }
+
+
 }

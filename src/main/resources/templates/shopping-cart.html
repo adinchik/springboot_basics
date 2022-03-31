@@ -1,0 +1,68 @@
+<!--/*@thymesVar id="studentsList" type="java.util.List<com.geekbrains.entities.Student>"*/-->
+
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Shopping Cart</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+    <script type="text/javascript" th:src="@{/webjars/jquery/3.3.1/dist/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/webjars/bootstrap/4.1.3/js/bootstrap.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/main.js}"></script>
+    <link type="text/css" rel="stylesheet" th:href="@{/webjars/bootstrap/4.1.3/css/bootstrap.min.css}"/>
+    <link type="text/css" rel="stylesheet" th:href="@{/css/main.css}"/>
+</head>
+
+<body>
+
+<div th:replace="~{menu :: navi(ShoppingCart)}" />
+
+
+<div class="container">
+    <h1>Products in buying process</h1>
+    <table class="table">
+        <thead>
+        <tr class="thead-dark">
+            <td>Id</td>
+            <td>Title</td>
+            <td>Price</td>
+            <td>Count</td>
+            <td>Total Price</td>
+        </tr>
+        </thead>
+
+        <tr class="myTableRow responsive-row" th:each="shoppingCartItem : ${shoppingCartItems}">
+            <td th:text="${shoppingCartItem.getProduct_id().getId()}"/>
+            <td th:text="${shoppingCartItem.getProduct_id().getTitle()}"/>
+            <td th:text="${shoppingCartItem.getProduct_id().getPrice()}"/>
+            <td>
+<!--                <a type="button" class="btn btn-success" th:href="@{'/shoppingCart/add/' + ${shoppingCartItem.getId()}}">+</a>-->
+                <a type="button" class="btn btn-success" th:href="@{'/shoppingCart/add/id/'+ ${shoppingCartItem.getId()} + '/page/' + ${currentPage}}">+</a>
+                <a th:text="${shoppingCartItem.getCount()}"/>
+                <a type="button" class="btn btn-danger" th:href="@{'/shoppingCart/remove/id/'+ ${shoppingCartItem.getId()} + '/page/' + ${currentPage}}">-</a>
+            </td>
+            <td th:text="${shoppingCartItem.getPrice()}"/>
+        </tr>
+
+        <tr>
+            <td></td>
+            <td>Total price</td>
+            <td th:text = "${sum}"/>
+        </tr>
+    </table>
+    <hr/>
+    <ul class="nav nav-pills">
+        <li class="nav-item"
+            th:each="i : ${#numbers.sequence(0, T(Math).max(0, shoppingCartItems.totalPages - 1))}">
+            <a th:href="@{'/shoppingCart/list?page='+ ${i}}" th:text="${i}" class="nav-link"
+               th:classappend="${currentPage==i} ? 'active nav-link' : 'nav-link' "></a>
+
+        </li>
+    </ul>
+
+</div>
+
+
+</body>
+</html>
